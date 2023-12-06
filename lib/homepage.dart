@@ -24,21 +24,24 @@ class _HomePageState extends State<HomePage> {
           'South Africa': false,
           'Australia': true
         }),
-    Question(id: '3', questionText: 'Who is most run scorer', options: {
-      'Kohli': true,
+    Question(id: '3', questionText: 'Who is most run scorer world cup', options: {
+      'Virat Kohli': true,
       'Rohit': false,
       'Babar Azam': false,
       'De kock': false
     }),
-    Question(id: '2', questionText: 'Host Country of world cup', options: {
-      'India': true,
-      'New Zealand': false,
-      'South Africa': false,
-      'Australia': false
+    Question(id: '2', questionText: 'Where was the WC final played ', options: {
+      'Wankhede Stadium':false,
+      'Eden Gardens': false,
+      'Narendra Modi Stadium': true,
+      'Chinmaswamy Stadium': false
     }),
   ];
   //Index to loop questions from 0 to n-1 //
   int index = 0;
+  //Score calculate //
+  int Score = 0;
+  //Boolean value to check if user has clicked on or not //
   bool isclicked = false;
 
   //Function to change the question //
@@ -46,10 +49,18 @@ class _HomePageState extends State<HomePage> {
     if (index == _question.length - 1) {
       return;
     } else {
+      if(isclicked) {
       setState(() {
         index++;
         isclicked = false; //This will change the questions index //
       });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content:Text("Please Select a option"),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.symmetric(vertical: 20),
+        ));
+      }
     }
   }
 
@@ -73,6 +84,12 @@ class _HomePageState extends State<HomePage> {
         )),
         backgroundColor: Colors.transparent,
         elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical:16.0,horizontal: 12),
+            child: Text("Score : $Score",style: GoogleFonts.montserrat(fontSize: 18,fontWeight: FontWeight.bold),),
+          )
+        ],
       ),
       body: Container(
         width: double.infinity,
