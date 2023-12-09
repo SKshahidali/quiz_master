@@ -5,6 +5,7 @@ import 'package:quiz_master/models/question_model.dart';
 import 'package:quiz_master/widgets/next_button.dart';
 import 'package:quiz_master/widgets/options.dart';
 import 'package:quiz_master/widgets/question.dart';
+import 'package:quiz_master/widgets/results.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -43,16 +44,18 @@ class _HomePageState extends State<HomePage> {
   int Score = 0;
   //Boolean value to check if user has clicked on or not //
   bool isclicked = false;
-
   //Function to change the question //
+  bool isAlreadySelected = false ;
   void nextquestion() {
     if (index == _question.length - 1) {
-      return;
+      // This is where questions end and a box appers //
+      showDialog(context: (context), builder:(ctx)=>ResultsBox(result: Score,questionLength: _question.length,));
     } else {
       if(isclicked) {
       setState(() {
         index++;
         isclicked = false; //This will change the questions index //
+        isAlreadySelected = false;
       });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -66,10 +69,19 @@ class _HomePageState extends State<HomePage> {
 
    //Function to change the color of the options // 
 
-   void changecolor() {
+   void checkAnswerandupdate(bool value) {
+    if(isAlreadySelected) {
+      return;
+    } else {
+      if(value == true) {
+      Score++;
     setState(() {
       isclicked = true;
+      isAlreadySelected = true;
     });
+    }
+    }
+    
    }
 
   @override
@@ -106,10 +118,13 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 40,),
                 for(int i =0;i < _question[index].options.length;i++)
-                OptionsCard(
-                  option:_question[index].options.keys.toList()[i], 
-                  color:isclicked ? _question[index].options.values.toList()[i] == true ? correctanswer : incorrectanswer : neutral,
-                onTap: changecolor,
+                GestureDetector(
+                  onTap:() => checkAnswerandupdate(_question[index].options.values.toList()[i]),
+                  child: OptionsCard(
+                    option:_question[index].options.keys.toList()[i], 
+                    color:isclicked ? _question[index].options.values.toList()[i] == true ? correctanswer : incorrectanswer : neutral,
+                  
+                  ),
                 )
             ],
           ),
