@@ -8,6 +8,7 @@ class ResultsBox extends StatelessWidget {
 final int result;
 final int questionLength;
 
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -19,12 +20,18 @@ final int questionLength;
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Results',style: GoogleFonts.montserrat(color: neutral,fontSize: 24,fontWeight: FontWeight.bold),),
+            Text('Results',style: GoogleFonts.montserrat(color: neutral,fontSize: 36,fontWeight: FontWeight.bold),),
             const SizedBox(height: 20,),
             CircleAvatar(
-              child: Text('$result/$questionLength'),
+              child: Text('$result/$questionLength',style: GoogleFonts.montserrat(fontSize: 24,fontWeight: FontWeight.bold),),
               radius: 60,
-            )
+            ),
+
+            const SizedBox(height: 25,),
+            GestureDetector(
+              onTap: () {},
+              child: Text("Start Over",style: GoogleFonts.montserrat(fontSize: 20,fontWeight: FontWeight.w700,color: neutral,letterSpacing: 1),))
+
             
           ],
         ),

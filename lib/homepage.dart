@@ -25,17 +25,32 @@ class _HomePageState extends State<HomePage> {
           'South Africa': false,
           'Australia': true
         }),
-    Question(id: '3', questionText: 'Who is most run scorer world cup', options: {
-      'Virat Kohli': true,
-      'Rohit': false,
-      'Babar Azam': false,
-      'De kock': false
+    Question(
+        id: '3',
+        questionText: 'Who is most run scorer world cup',
+        options: {
+          'Virat Kohli': true,
+          'Rohit Sharma': false,
+          'Babar Azam': false,
+          'De kock': false
+        }),
+    Question(id: '4', questionText: 'In T20 Internationals,who holds the record for fastest century ', options: {
+      'AB DE Villers': false,
+      'Chris Gayle ': true,
+      'Rohit Sharma': false,
+      'KL Rahul': false
     }),
-    Question(id: '2', questionText: 'Where was the WC final played ', options: {
-      'Wankhede Stadium':false,
-      'Eden Gardens': false,
-      'Narendra Modi Stadium': true,
-      'Chinmaswamy Stadium': false
+    Question(id: '5', questionText: 'Who has scored highest runs in a single edition of a IPL ? ', options: {
+      'David Warner': false,
+      'Suresh Raina': false,
+      'Virat Kohli': true,
+      'Chris Gayle': false
+    }),
+    Question(id: '6', questionText: 'Who was the winner of inaugural T20 world cup', options: {
+      'Pakistan': false,
+      'England': false,
+      'South Africa': false,
+      'India': true
     }),
   ];
   //Index to loop questions from 0 to n-1 //
@@ -45,21 +60,28 @@ class _HomePageState extends State<HomePage> {
   //Boolean value to check if user has clicked on or not //
   bool isclicked = false;
   //Function to change the question //
-  bool isAlreadySelected = false ;
+  bool isAlreadySelected = false;
   void nextquestion() {
     if (index == _question.length - 1) {
       // This is where questions end and a box appers //
-      showDialog(context: (context), builder:(ctx)=>ResultsBox(result: Score,questionLength: _question.length,));
+      showDialog(
+          context: (context),
+          barrierDismissible: false,
+          builder: (ctx) => ResultsBox(
+                result: Score,
+                questionLength: _question.length,
+                
+              ));
     } else {
-      if(isclicked) {
-      setState(() {
-        index++;
-        isclicked = false; //This will change the questions index //
-        isAlreadySelected = false;
-      });
+      if (isclicked) {
+        setState(() {
+          index++;
+          isclicked = false; //This will change the questions index //
+          isAlreadySelected = false;
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content:Text("Please Select a option"),
+          content: Text("Please Select a option"),
           behavior: SnackBarBehavior.floating,
           margin: EdgeInsets.symmetric(vertical: 20),
         ));
@@ -67,22 +89,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-   //Function to change the color of the options // 
+  //Function to change the color of the options //
 
-   void checkAnswerandupdate(bool value) {
-    if(isAlreadySelected) {
+  void checkAnswerandupdate(bool value) {
+    if (isAlreadySelected) {
       return;
     } else {
-      if(value == true) {
-      Score++;
-    setState(() {
-      isclicked = true;
-      isAlreadySelected = true;
-    });
+      if (value == true) {
+        Score++;
+        setState(() {
+          isclicked = true;
+          isAlreadySelected = true;
+        });
+      }
     }
-    }
-    
-   }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -98,8 +121,12 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical:16.0,horizontal: 12),
-            child: Text("Score : $Score",style: GoogleFonts.montserrat(fontSize: 18,fontWeight: FontWeight.bold),),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12),
+            child: Text(
+              "Score : $Score",
+              style: GoogleFonts.montserrat(
+                  fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           )
         ],
       ),
@@ -116,14 +143,20 @@ class _HomePageState extends State<HomePage> {
               const Divider(
                 color: neutral,
               ),
-              const SizedBox(height: 40,),
-                for(int i =0;i < _question[index].options.length;i++)
+              const SizedBox(
+                height: 40,
+              ),
+              for (int i = 0; i < _question[index].options.length; i++)
                 GestureDetector(
-                  onTap:() => checkAnswerandupdate(_question[index].options.values.toList()[i]),
+                  onTap: () => checkAnswerandupdate(
+                      _question[index].options.values.toList()[i]),
                   child: OptionsCard(
-                    option:_question[index].options.keys.toList()[i], 
-                    color:isclicked ? _question[index].options.values.toList()[i] == true ? correctanswer : incorrectanswer : neutral,
-                  
+                    option: _question[index].options.keys.toList()[i],
+                    color: isclicked
+                        ? _question[index].options.values.toList()[i] == true
+                            ? correctanswer
+                            : incorrectanswer
+                        : neutral,
                   ),
                 )
             ],
